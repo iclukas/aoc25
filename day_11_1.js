@@ -1,5 +1,4 @@
 solve_11_1 = function (inp) {
-	let tree = [];
 	let map = {};
 
 	inp.split("\n").forEach(line=>{
@@ -7,19 +6,13 @@ solve_11_1 = function (inp) {
 		map[line[0]] = line[1].split(" ")
 	});
 
-	const treedrill = function (subtree) {
-		map[subtree[subtree.length-1]].forEach(subitem=>{
-			if (!subtree.includes(subitem)) {
-				subtree.push(subitem);
-				if (subitem === "out") {
-					tree.push([...subtree]);
-				} else {
-					treedrill(subtree);
-				}
-				subtree.pop();
-			}
+	const treedrill = function (item) {
+		if (map[item].includes("out")) return 1;
+		let ctr = 0;
+		map[item].forEach(subitem=>{
+			ctr += treedrill(subitem);
 		});
+		return ctr;
 	}
-	treedrill(["you"]);
-	console.info(tree.length);
+	console.info(treedrill("you"));
 }
